@@ -2,12 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
-
-# Load CSV (change path to train.csv if you want survival column)
 df = pd.read_csv(r"C:\MINI PROJECT\PRODIGY\TASK2\test.csv")
 print(df.head(), "\nColumns:", df.columns.tolist())
-
-# Helper function to plot & save
 def plot_and_save(func, filename, **kwargs):
     plt.figure(figsize=kwargs.pop("figsize", (6, 4)))
     func(**kwargs)
@@ -15,11 +11,7 @@ def plot_and_save(func, filename, **kwargs):
     plt.savefig(filename, dpi=300)
     plt.show()
     plt.close()
-
-# Create output folder
 os.makedirs("plots", exist_ok=True)
-
-# 1. Missing values heatmap
 plot_and_save(
     sns.heatmap,
     "plots/missing_values.png",
@@ -28,8 +20,6 @@ plot_and_save(
     cmap="viridis",
     figsize=(8, 5)
 )
-
-# 2. Sex distribution
 if "Sex" in df.columns:
     plot_and_save(
         sns.countplot,
@@ -40,8 +30,6 @@ if "Sex" in df.columns:
         palette="pastel",
         legend=False
     )
-
-# 3. Pclass distribution
 if "Pclass" in df.columns:
     plot_and_save(
         sns.countplot,
@@ -52,8 +40,6 @@ if "Pclass" in df.columns:
         palette="muted",
         legend=False
     )
-
-# 4. Age distribution
 if "Age" in df.columns:
     plot_and_save(
         sns.histplot,
@@ -65,8 +51,6 @@ if "Age" in df.columns:
         bins=30,
         figsize=(8, 5)
     )
-
-# 5. Survival count (only if 'Survived' exists)
 if "Survived" in df.columns:
     plot_and_save(
         sns.countplot,
@@ -79,8 +63,6 @@ if "Survived" in df.columns:
     )
 else:
     print("'Survived' column not found — skipping survival plot.")
-
-# 6. Correlation heatmap (numeric columns only)
 num_df = df.select_dtypes(include="number")
 if not num_df.empty:
     plot_and_save(
@@ -93,3 +75,4 @@ if not num_df.empty:
     )
 else:
     print("No numeric columns for correlation heatmap.")
+
